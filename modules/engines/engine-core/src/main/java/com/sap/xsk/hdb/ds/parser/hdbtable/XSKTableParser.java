@@ -77,11 +77,16 @@ public class XSKTableParser implements XSKDataStructureParser {
 
         XSKHDBTABLECoreVisitor xskhdbtableCoreVisitor = new XSKHDBTABLECoreVisitor();
 
-        xskhdbtableCoreVisitor.visit(parseTree);
+        JsonElement parsedResult = xskhdbtableCoreVisitor.visit(parseTree);
 
         Gson gson = new Gson();
 
-        XSKHDBTABLEDefinitionModel hdbtableDefinitionModel = gson.fromJson(xskhdbtableCoreVisitor.getHdbtableDefinitionObject(), XSKHDBTABLEDefinitionModel.class);
+        XSKHDBTABLEDefinitionModel hdbtableDefinitionModel = gson.fromJson(parsedResult, XSKHDBTABLEDefinitionModel.class);
+        try {
+            hdbtableDefinitionModel.checkForAllMandatoryFieldsPresence();
+        } catch (Exception e) {
+            throw new XSKDataStructuresException(String.format("Wrong format of table definition: [%s]. [%s]", location, e.getMessage()));
+        }
 
         XSKDataStructureHDBTableModel dataStructureHDBTableModel = new XSKDataStructureHDBTableModel();
 
@@ -124,14 +129,15 @@ public class XSKTableParser implements XSKDataStructureParser {
 
         List<XSKDataStructureHDBTableConstraintUniqueModel> uniqueIndices = new ArrayList<>();
 
-        for(XSKHDBTABLEIndexesModel index : hdbtableDefinitionModel.getIndexes()){
-            XSKDataStructureHDBTableConstraintUniqueModel uniqueIndex = new XSKDataStructureHDBTableConstraintUniqueModel();
-            uniqueIndex.setName(index.getIndexName());
-            uniqueIndex.setColumns(index.getIndexColumns().toArray(String[]::new));
-            uniqueIndices.add(uniqueIndex);
+        if(hdbtableDefinitionModel.getIndexes()!=null) {
+            for (XSKHDBTABLEIndexesModel index : hdbtableDefinitionModel.getIndexes()) {
+                XSKDataStructureHDBTableConstraintUniqueModel uniqueIndex = new XSKDataStructureHDBTableConstraintUniqueModel();
+                uniqueIndex.setName(index.getIndexName());
+                uniqueIndex.setColumns(index.getIndexColumns().toArray(String[]::new));
+                uniqueIndices.add(uniqueIndex);
+            }
+            dataStructureHDBTableModel.getConstraints().setUniqueIndices(uniqueIndices);
         }
-        dataStructureHDBTableModel.getConstraints().setUniqueIndices(uniqueIndices);
-
         return dataStructureHDBTableModel;
     }
 }

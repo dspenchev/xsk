@@ -11,10 +11,10 @@
  */
 package com.sap.xsk.parser.hdbtable.model;
 
-import com.google.gson.JsonElement;
+import com.sap.xsk.parser.hdbtable.exceptions.XSKHDBTableMissingPropertyException;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class XSKHDBTABLEDefinitionModel {
     private String schemaName;
@@ -110,5 +110,16 @@ public class XSKHDBTABLEDefinitionModel {
 
     public List<XSKHDBTABLEIndexesModel> getIndexes() {
         return indexes;
+    }
+
+    public void checkForAllMandatoryFieldsPresence() throws Exception {
+        checkPresence(schemaName, "schemaName");
+        checkPresence(columns, "columns");
+    }
+
+    private <T> void checkPresence(T field, String fieldName) {
+        if (Objects.isNull(field)) {
+            throw new XSKHDBTableMissingPropertyException(String.format("Missing mandatory field %s!", fieldName));
+        }
     }
 }
