@@ -9,15 +9,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up sapmachine JDK 11
-      run: |
+      - run: |
         download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.11%2B8/sapmachine-jdk-11.0.11-ea.8_linux-x64_bin.tar.gz"
         wget -O $RUNNER_TEMP/java_package.tar.gz ${download_url}
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkFile'
-        jdkFile: ${{ runner.temp }}/java_package.tar.gz
-        java-version: '11.0.11'
-        architecture: x64
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkFile'
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+          java-version: '11.0.11'
+          architecture: x64
     - name: Maven Build
       run: mvn clean install
     - name: Dodcker Login
@@ -40,4 +40,3 @@ jobs:
         docker build -t dirigiblelabs/xsk-kyma .
         docker push dirigiblelabs/xsk-kyma
         cd ../../
-
