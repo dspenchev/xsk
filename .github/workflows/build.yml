@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         distribution: 'SapMachine'
-        SapMachine: ${{ runner.temp }}/java_package.tar.gz
+        jdkFile: ${{ runner.temp }}/java_package.tar.gz
         java-version: '11.0.11'
         architecture: x64
     - name: Maven Build
