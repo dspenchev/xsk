@@ -15,7 +15,8 @@
 	<version>0.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<modules>
+	
+        <modules>
 		<module>server</module>
 		<module>sap-cf</module>
 		<module>sap-kyma</module>
