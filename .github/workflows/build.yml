@@ -11,9 +11,9 @@ jobs:
     - name: Setup sapmachine JDK 11
       run: |
         download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.11%2B8/sapmachine-jdk-11.0.11-ea.8_linux-x64_bin.tar.gz"
-        wget -O /jdk/sapmachine-jdk-11.0.11.tar.gz ${download_url}
-        tar -xzf /jdk/sapmachine-jdk-11.0.11.tar.gz -c /jdk
-        export JAVA_HOME="/jdk/sapmachine-jdk-11.0.11"
+        wget -O /usr/local/sapmachine-jdk-11.0.11.tar.gz ${download_url}
+        tar -xzf /usr/local/sapmachine-jdk-11.0.11.tar.gz -c /usr/local
+        export JAVA_HOME="/usr/local/sapmachine-jdk-11.0.11"
     - name: Maven Build
       run: mvn clean install
     - name: Dodcker Login
