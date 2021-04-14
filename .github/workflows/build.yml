@@ -15,7 +15,9 @@ jobs:
         tar -xf "${RUNNER_TEMP}/sapmachine-jdk-11.0.11.tar.gz" --directory "${RUNNER_TEMP}"
         export JAVA_HOME="${RUNNER_TEMP}/sapmachine-jdk-11.0.11"
     - name: Maven Build
-      run: mvn clean install
+      run: |
+        mvn clean install
+        echo "${JAVA_HOME}"
     - name: Docker Login
       run: |
         echo ${{ secrets.DOCKER_USER }}
@@ -23,18 +25,21 @@ jobs:
     - name: Push XSK
       run: |
         cd releng/server
-        docker build -t test199828/test1 --build-arg ${JAVA_HOME} .
+        export JAVA_HOME="${RUNNER_TEMP}/sapmachine-jdk-11.0.11"
+        docker build -t test199828/test1 --build-arg JDK_HOME="${JAVA_HOME}" .
         docker push test199828/test1
         cd ../../
     - name: Push XSK for SAP Cloud Foundry
       run: |
         cd releng/sap-cf
-        docker build -t test199828/test2 --build-arg ${JAVA_HOME} .
+        export JAVA_HOME="${RUNNER_TEMP}/sapmachine-jdk-11.0.11"
+        docker build -t test199828/test2 --build-arg JDK_HOME="${JAVA_HOME}" .
         docker push test199828/test2
         cd ../../
     - name: Push XSK for SAP Kyma
       run: |
         cd releng/sap-kyma
-        docker build -t test199828/test3 --build-arg ${JAVA_HOME} .
+        export JAVA_HOME="${RUNNER_TEMP}/sapmachine-jdk-11.0.11"
+        docker build -t test199828/test3 --build-arg JAVA_HOME="${JAVA_HOME}" .
         docker push test199828/test3
         cd ../../
