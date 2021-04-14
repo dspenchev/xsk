@@ -19,7 +19,7 @@ jobs:
     - name: Docker Login
       run: |
         echo ${{ secrets.DOCKER_USER }}
-        docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+        docker login -u test199828 -p 1q2w3e4r~
     - name: Push XSK
       run: |
         cd releng/server
