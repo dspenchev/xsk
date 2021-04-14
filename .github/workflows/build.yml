@@ -23,7 +23,7 @@ jobs:
     - name: Push XSK
       run: |
         cd releng/server
-        docker build -t danielpenchev98/test1 --build-arg ${JAVA_HOME} Dockerfile-external-jdk .
+        docker build -t danielpenchev98/test1 --build-arg ${JAVA_HOME} -f Dockerfile-external-jdk .
         docker push danielpenchev98/test1
         cd ../../
     - name: Push XSK for SAP Cloud Foundry
