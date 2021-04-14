@@ -23,18 +23,18 @@ jobs:
     - name: Push XSK
       run: |
         cd releng/server
-        docker build -t danielpenchev98/test1 --build-arg ${JAVA_HOME} .
-        docker push danielpenchev98/test1
+        docker build -t test199828/test1 --build-arg ${JAVA_HOME} .
+        docker push test199828/test1
         cd ../../
     - name: Push XSK for SAP Cloud Foundry
       run: |
         cd releng/sap-cf
-        docker build -t danielpenchev98/test2 --build-arg ${JAVA_HOME} .
-        docker push danielpenchev98/test2
+        docker build -t test199828/test2 --build-arg ${JAVA_HOME} .
+        docker push test199828/test2
         cd ../../
     - name: Push XSK for SAP Kyma
       run: |
         cd releng/sap-kyma
-        docker build -t danielpenchev98/test3 --build-arg ${JAVA_HOME} .
-        docker push danielpenchev98/test3
+        docker build -t test199828/test3 --build-arg ${JAVA_HOME} .
+        docker push test199828/test3
         cd ../../
