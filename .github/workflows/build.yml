@@ -22,25 +22,25 @@ jobs:
     - name: Maven Build
       run: mvn clean install
     - name: Docker Login
-      run: docker login -u test199828 -p 1q2w3e4r~
+      run: docker login -u testet1991 -p 1q2w3e4r~
     - name: Push XSK
       run: |
         cd releng/server
         cp -r "${JAVA_HOME}" jdk
-        docker build -t test199828/test1 --build-arg JDK_HOME="jdk" Dockerfile .
-        docker push test199828/test1
+        docker build -t testet1991/test1 --build-arg JDK_HOME="jdk" .
+        docker push testet1991/test1
         cd ../../
     - name: Push XSK for SAP Cloud Foundry
       run: |
         cd releng/sap-cf
         cp -r "${JAVA_HOME}" jdk
-        docker build -t test199828/test2 --build-arg JDK_HOME="jdk" -f Dockerfile .
-        docker push test199828/test2
+        docker build -t testet1991/test2 --build-arg JDK_HOME="jdk" .
+        docker push testet1991/test2
         cd ../../
     - name: Push XSK for SAP Kyma
       run: |
         cd releng/sap-kyma
         cp -r "${JAVA_HOME}" jdk
-        docker build -t test199828/test3 --build-arg JDK_HOME="jdk" -f Dockerfile .
-        docker push test199828/test3
+        docker build -t testet1991/test3 --build-arg JDK_HOME="jdk" .
+        docker push testet1991/test3
         cd ../../
