@@ -5,6 +5,7 @@ FROM tomcat:8.5.43-jdk11-openjdk
 
 # JDK_HOME is the path to the home directory of the jdk
 ARG JDK_HOME
+RUN echo "${JDK_HOME}"
 
 RUN rm -R /usr/local/tomcat/webapps/*
 COPY target/ROOT.war $CATALINA_HOME/webapps/
