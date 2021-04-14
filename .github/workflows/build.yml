@@ -16,32 +16,32 @@ jobs:
       with:
         distribution: 'jdkfile'
         jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.0.11.tar.gz
-        java-version: '11.0.0'
+        java-version: '11.0.11'
         architecture: x64
     - name: Maven Build
       run: |
         echo "${JAVA_HOME}"
         mvn clean install
     - name: Docker Login
-      run: |
-        echo ${{ secrets.DOCKER_USER }}
-        docker login -u test199828 -p 1q2w3e4r~
+      run: docker login -u test199828 -p 1q2w3e4r~
     - name: Push XSK
       run: |
         cd releng/server
-        echo "${JAVA_HOME}"
-        docker build -t test199828/test1 --build-arg JDK_HOME="${JAVA_HOME}" .
+        cp -r "${JAVA_HOME}" jdk 
+        docker build -t test199828/test1 --build-arg JDK_HOME="jdk" .
         docker push test199828/test1
         cd ../../
     - name: Push XSK for SAP Cloud Foundry
       run: |
         cd releng/sap-cf
-        docker build -t test199828/test2 --build-arg JDK_HOME="${JAVA_HOME}" .
+        cp -r "${JAVA_HOME}" jdk 
+        docker build -t test199828/test2 --build-arg JDK_HOME="jdk" .
         docker push test199828/test2
         cd ../../
     - name: Push XSK for SAP Kyma
       run: |
         cd releng/sap-kyma
-        docker build -t test199828/test3 --build-arg JAVA_HOME="${JAVA_HOME}" .
+        cp -r "${JAVA_HOME}" jdk
+        docker build -t test199828/test3 --build-arg JDK_HOME="jdk" .
         docker push test199828/test3
         cd ../../
