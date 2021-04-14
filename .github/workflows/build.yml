@@ -17,7 +17,9 @@ jobs:
     - name: Maven Build
       run: mvn clean install
     - name: Docker Login
-      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+      run: |
+        echo ${{ secrets.DOCKER_USER }}
+        docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
     - name: Push XSK
       run: |
         cd releng/server
